@@ -157,7 +157,6 @@ padding:8px;
 
 <h2>Monthly Productivity</h2>
 
-
 <div class="panel goals-editor" id="goalsPanel">
 
 <h3>Goals</h3>
@@ -165,9 +164,9 @@ padding:8px;
 <div id="goalInputs"></div>
 
 <button onclick="saveGoals()">Save</button>
-
-</div>
-
+<button onclick="resetmonth()" style="margin-left:8px;background:#7f1d1d;">
+Reset Month
+</button>
 
 <div class="panel">
 
@@ -192,7 +191,35 @@ padding:8px;
 
 const today = new Date().getDate()
 
+const currentMonth = new Date().getMonth()
 
+let savedMonth = localStorage.getItem("savedMonth")
+
+if(savedMonth === null){
+localStorage.setItem("savedMonth", currentMonth)
+}
+
+if(savedMonth != currentMonth){
+
+data = Array.from({length:31},()=>[false,false,false,false,false])
+
+localStorage.setItem("data", JSON.stringify(data))
+
+localStorage.setItem("savedMonth", currentMonth)
+
+}
+
+function resetmonth(){
+
+if(!confirm("Reset all data for the month ?")) return
+
+data= Array.from({lenght:31},()=>[false,false,false,false,false])
+
+localStorage.setItem("data",JSON.stringify(data))
+
+renderTable()
+
+updateRadar()
 
 /* storage */
 
